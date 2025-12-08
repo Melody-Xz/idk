@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Melody • API</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#121212" />
+  <link rel="icon" href="https://qu.ax/x/DSqOr.jpg" type="image/x-icon">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  
+  <style>
+    :root {
+      --primary: #4dabf7;
+      --primary-dark: #1971c2;
+      --primary-light: #a5d8ff;
+      --dark: #121212;
+      --dark-light: #1e1e1e;
+      --dark-lighter: #2d2d2d;
+      --text: #ffffff;
+      --text-secondary: #cccccc;
+      --accent: #ff6b6b;
+      --gradient: linear-gradient(135deg, #4dabf7 0%, #1971c2 100%);
+      --ok: #6EF9A7;
+      --err: #F96B6B;
+      --radius: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--dark);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header - Eliminado el header original */
+
+    /* Hero Section - Ahora es la sección principal */
+    .hero {
+      padding: 80px 0 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(77, 171, 247, 0.1) 0%, rgba(18, 18, 18, 0) 70%);
+      z-index: -1;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      margin-bottom: 10px;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 800;
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      color: var(--primary-light);
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      max-width: 700px;
+      margin: 0 auto 40px;
+      color: var(--text-secondary);
+    }
+
+    /* Bot Image */
+    .bot-container {
+      position: relative;
+      margin: 0 auto 40px;
+      width: 250px;
+      height: 250px;
+    }
+
+    .bot-image {
+      width: 100%;
+      height: 100%;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(77, 171, 247, 0.5);
+      transition: all 0.5s ease;
+      position: relative;
+      z-index: 2;
+      background: var(--dark-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid var(--primary);
+    }
+
+    .bot-image:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 50px rgba(77, 171, 247, 0.8);
+      border-color: var(--primary-light);
+    }
+
+    .bot-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .bot-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 15px;
+      background: var(--gradient);
+      filter: blur(20px);
+      opacity: 0.5;
+      z-index: 1;
+      animation: pulse 3s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 0.5; }
+    }
+
+    /* WhatsApp banner - Modificado con azul y blanco */
+    .whatsapp-banner {
+      background: linear-gradient(135deg, #1971c2 0%, #4dabf7 100%);
+      color: white;
+      padding: 25px 30px;
+      border-radius: var(--radius);
+      margin: 40px auto;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(77, 171, 247, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      max-width: 800px;
+      transition: transform 0.2s ease-in-out;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .whatsapp-banner:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(77, 171, 247, 0.4);
+    }
+
+    .whatsapp-banner h3 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .whatsapp-banner p {
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0;
+    }
+
+    .whatsapp-banner .btn {
+      background: white;
+      color: #1971c2;
+      padding: 12px 25px;
+      border-radius: 999px;
+      font-weight: 700;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      text-decoration: none;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .whatsapp-banner .btn:hover {
+      background: #f0f8ff;
+      color: #0d5aa7;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Search */
+    .search-container {
+      position: relative;
+      max-width: 600px;
+      margin: 0 auto 40px;
+    }
+
+    .search-container .icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      font-size: 16px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px 16px 14px 48px;
+      border-radius: var(--radius);
+      border: 1px solid var(--dark-lighter);
+      background: var(--dark-light);
+      color: var(--text);
+      outline: none;
+      font-size: 16px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 15px rgba(77, 171, 247, 0.3);
+    }
+
+    /* Tabs */
+    .tabs-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      padding: 15px;
+      background: var(--dark-light);
+      border: 1px solid var(--dark-lighter);
+      border-radius: var(--radius);
+      margin-bottom: 40px;
+    }
+
+    .tab-button {
+      flex: 1 1 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-button .fa-solid {
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+
+    .tab-button:hover {
+      color: var(--text);
+      background: rgba(77, 171, 247, 0.1);
+    }
+
+    .tab-button.active {
+      background: var(--gradient);
+      color: var(--text);
+      box-shadow: 0 4px 15px rgba(77, 171, 247, 0.4);
+    }
+
+    .tab-button.active .fa-solid {
+      color: var(--text);
+    }
+
+    /* API Sections */
+    .api-category {
+      margin-bottom: 50px;
+    }
+
+    #api-sections-container .api-category {
+      display: none;
+    }
+
+    #api-sections-container .api-category:first-child {
+      display: block;
+    }
+
+    .api-category h2 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      padding-left: 15px;
+      border-left: 4px solid var(--primary);
+      color: var(--primary-light);
+    }
+
+    /* Grid and Cards */
+    .grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    @media(min-width: 840px) {
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .card {
+      background: var(--dark-light);
+      border: 1px solid var(--dark-lighter);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--gradient);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      border-color: var(--primary);
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+    }
+
+    .card h3 .fa-solid,
+    .card h3 .fa-brands {
+      color: var(--primary);
+      width: 20px;
+      text-align: center;
+    }
+
+    .endpoint {
+      font-family: monospace;
+      font-size: 13px;
+      color: var(--primary);
+      background: var(--dark);
+      border: 1px dashed var(--dark-lighter);
+      padding: 8px 12px;
+      border-radius: 8px;
+      word-break: break-all;
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .row.wrap {
+      flex-wrap: wrap;
+    }
+
+    .row .grow {
+      flex: 1;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--dark-lighter);
+      background: var(--dark);
+      color: var(--text);
+      outline: none;
+      font-size: 14px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 10px rgba(77, 171, 247, 0.3);
+    }
+
+    /* Buttons */
+    .btn {
+      background: var(--gradient);
+      border: none;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(77, 171, 247, 0.4);
+    }
+
+    .btn.secondary {
+      background: var(--dark-lighter);
+      border: 1px solid var(--dark-lighter);
+      color: var(--text);
+    }
+
+    .btn.secondary:hover {
+      background: var(--dark-light);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* JSON Output */
+    .json {
+      background: #0D0D1A;
+      border: 1px solid var(--dark-lighter);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+      font-family: monospace;
+      color: var(--text-secondary);
+      max-height: 350px;
+      white-space: pre-wrap;
+      overflow: auto;
+      word-break: break-all;
+    }
+
+    .json img,
+    .json video,
+    .json audio {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid var(--dark-lighter);
+    }
+
+    .json audio {
+      width: 100%;
+    }
+
+    .api-used {
+      background: var(--dark);
+      border: 1px solid var(--dark-lighter);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-family: monospace;
+      color: var(--primary);
+      word-break: break-all;
+      margin-bottom: 8px;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 14px;
+      border-top: 1px solid var(--dark-lighter);
+      padding-top: 28px;
+      padding-bottom: 40px;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .delay-1 {
+      animation-delay: 0.2s;
+    }
+
+    .delay-2 {
+      animation-delay: 0.4s;
+    }
+
+    .delay-3 {
+      animation-delay: 0.6s;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero {
+        padding: 60px 0 30px;
+      }
+      
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+      
+      .hero p {
+        font-size: 1.1rem;
+      }
+      
+      .bot-container {
+        width: 200px;
+        height: 200px;
+        margin-bottom: 30px;
+      }
+      
+      .whatsapp-banner {
+        padding: 20px;
+        margin: 30px auto;
+      }
+      
+      .whatsapp-banner h3 {
+        font-size: 20px;
+      }
+      
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .tabs-list {
+        padding: 10px;
+      }
+      
+      .tab-button {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero fade-in">
+      <div class="bot-container delay-1">
+        <div class="bot-glow"></div>
+        <div class="bot-image">
+          <img src="https://qu.ax/x/DSqOr.jpg" alt="Melody API">
+        </div>
+      </div>
+      <h1 class="fade-in">Melody API</h1>
+      <div class="hero-subtitle delay-2">Tu colección de APIs gratuitas y poderosas</div>
+      <p class="delay-3">Explora, prueba e integra nuestras APIs para descargas, inteligencia artificial, búsquedas y mucho más.</p>
+    </section>
+
+    <section class="whatsapp-banner fade-in">
+      <h3><i class="fa-brands fa-whatsapp"></i> Sigue nuestro Canal de WhatsApp</h3>
+      <p>Mantente al día con las últimas actualizaciones, noticias y funciones exclusivas de Melody API</p>
+      <a href="https://whatsapp.com/channel/0029VbBj5it3LdQMIxu7zP1l" target="_blank" class="btn">
+        <i class="fa-brands fa-whatsapp"></i> Unirse al Canal
+      </a>
+    </section>
+
+    <div class="search-container fade-in delay-1">
+      <i class="fa-solid fa-magnifying-glass icon"></i>
+      <input id="search-input" class="search-input" placeholder="Buscar APIs por nombre o descripción...">
+    </div>
+    
+    <div id="tabs-container" class="tabs-list fade-in delay-2"></div>
+
+    <div id="api-sections-container" class="fade-in delay-3"></div>
+
+    <footer>
+      <div>© <span id="year"></span> • Melody API • Desarrollad️ por Speed3xz</div>
+      <div style="margin-top: 10px; color: var(--text-secondary); font-size: 12px;">
+        <i class="fab fa-github"></i> 
+        <a href="https://github.com/speed3xz/" target="_blank" style="color: var(--primary); margin-left: 5px;">GitHub</a> •
+        <a href="https://wa.me/573114910796" target="_blank" style="color: var(--primary); margin-left: 5px;">WhatsApp</a>
+      </div>
+    </footer>
+  </div>
+
+<script>
+  // Datos de las APIs - Mantenemos la funcionalidad del primer código
+  const APIS = [
+    // Categoría: Downloads
+    {
+      name: "YouTube MP3",
+      type: "audio_download",
+      icon: "fa-solid fa-music",
+      path: "/api/download/youtube/mp3?url=",
+      placeholder: "https://youtu.be/VIDEO_ID",
+      docs: "Descarga audios de videos de YouTube con título, metadata y enlace directo.",
+      category: "Downloads"
+    },
+    {
+      name: "YouTube MP4",
+      type: "video_download",
+      icon: "fa-solid fa-video",
+      path: "/api/download/youtube/mp4?url=",
+      placeholder: "https://youtu.be/VIDEO_ID",
+      docs: "Descarga videos de YouTube con título, metadata y enlace directo.",
+      category: "Downloads"
+    },
+    {
+      name: "YouTube DLV2 (Audio + Video)",
+      type: "video_download",
+      icon: "fa-solid fa-file-video",
+      path: "/api/download/youtube/dlv2?url=",
+      placeholder: "https://youtu.be/VIDEO_ID",
+      docs: "Descarga audio/video de YouTube con enlaces combinados y metadata.",
+      category: "Downloads"
+    },
+    {
+      name: "Twitter Downloader",
+      type: "video_download",
+      icon: "fa-brands fa-x-twitter",
+      path: "/api/download/twitter?url=",
+      placeholder: "https://twitter.com/VIDEO_ID",
+      docs: "Descarga videos de Twitter en diferentes calidades.",
+      category: "Downloads"
+    },
+    {
+      name: "TikTok Downloader",
+      type: "video_download",
+      icon: "fa-brands fa-tiktok",
+      path: "/api/download/tiktok?url=",
+      placeholder: "https://www.tiktok.com/@user/video/123",
+      docs: "Devuelve JSON con enlaces de video (sin/con marca) y música.",
+      category: "Downloads"
+    },
+    {
+      name: "Instagram Downloader",
+      type: "image_video_download",
+      icon: "fa-brands fa-instagram",
+      path: "/api/download/instagram?url=",
+      placeholder: "https://www.instagram.com/reel/XXXX",
+      docs: "Obtiene los medios de la publicación de Instagram.",
+      category: "Downloads"
+    },
+    {
+      name: "Facebook Downloader",
+      type: "video_download",
+      icon: "fa-brands fa-facebook",
+      path: "/api/download/facebook?url=",
+      placeholder: "https://www.facebook.com/watch/?v=XXXXXXXX",
+      docs: "Devuelve calidades de video disponibles para descargar.",
+      category: "Downloads"
+    },
+
+    // Categoría: Tools
+    {
+      name: "URL Shortener",
+      type: "text_link",
+      icon: "fa-solid fa-link",
+      path: "/api/tools/shortener?url=",
+      placeholder: "https://tu-url-larga.com/...",
+      docs: "Acorta enlaces con TinyURL y devuelve un JSON.",
+      category: "Tools"
+    },
+    {
+      name: "Screenshot",
+      type: "image_gen",
+      icon: "fa-solid fa-camera",
+      path: "/api/tools/screenshot?url=",
+      placeholder: "https://tu-url.com/...",
+      docs: "Toma captura de pantalla de sitios web.",
+      category: "Tools"
+    },
+    {
+      name: "Texto a QR",
+      type: "qr_code",
+      icon: "fa-solid fa-qrcode",
+      path: "/api/tools/qr?text=",
+      placeholder: "Tu-texto-o-url",
+      docs: "Convierte texto a código QR.",
+      category: "Tools"
+    },
+
+    // Categoría: IAs
+    {
+      name: "Geminis Flash",
+      type: "chat_ai",
+      icon: "fa-solid fa-robot",
+      path: "/api/ai/geminis?text=",
+      placeholder: "Tu pregunta para Geminis Flash",
+      docs: "Habla con la inteligencia artificial 'Geminis' modelo 'gemini-2.0-flash'.",
+      category: "IAs"
+    },
+
+    // Categoría: NSFW
+    {
+      name: "Rule 34",
+      type: "image_gen",
+      icon: "fa-solid fa-circle-exclamation",
+      path: "/api/nsfw/r34?tags=",
+      placeholder: "Personaje (ej: waifu)",
+      docs: "Busca videos e imágenes en Rule 34.",
+      category: "NSFW +18"
+    },
+
+    // 🖼️ Nueva categoría: Searches
+    {
+      name: "Pinterest Search",
+      type: "image_search",
+      icon: "fa-brands fa-pinterest",
+      path: "/api/search/pinterest?q=",
+      placeholder: "Anime aesthetic",
+      docs: "Busca imágenes directamente desde Pinterest.",
+      category: "Searches"
+    }
+  ];
+
+  const CATEGORIES = [
+    { id: "IAs", name: "Inteligencia Artificial" },
+    { id: "Searches", name: "Búsquedas" },
+    { id: "Downloads", name: "Descargas" },
+    { id: "Tools", name: "Herramientas" },
+    { id: "NSFW +18", name: "NSFW +18" }
+  ];
+
+  // Funciones utilitarias
+  const $ = (q, ctx = document) => ctx.querySelector(q);
+  const byId = (id) => document.getElementById(id);
+  const pretty = (obj) => typeof obj === 'string' ? obj : JSON.stringify(obj, null, 2);
+
+  function getIconForCategory(id) {
+    const icons = {
+      "IAs": "fa-brain",
+      "Downloads": "fa-download",
+      "Searches": "fa-magnifying-glass",
+      "Tools": "fa-screwdriver-wrench",
+      "NSFW +18": "fa-eye-slash",
+    };
+    return icons[id] || "fa-layer-group";
+  }
+
+  // Construir pestañas de categorías
+  function buildTabs() {
+    const container = byId('tabs-container');
+    container.innerHTML = '';
+    
+    CATEGORIES.forEach((category, index) => {
+      const categoryId = `category-${category.id.replace(/\s/g, '-')}`;
+      const tab = document.createElement('button');
+      tab.type = 'button';
+      tab.className = 'tab-button';
+      
+      if (index === 0) {
+        tab.classList.add('active');
+      }
+      
+      tab.dataset.category = categoryId;
+      tab.onclick = () => showCategory(categoryId);
+      tab.innerHTML = `<i class="fa-solid ${getIconForCategory(category.id)}"></i> <span class="tab-text">${category.name}</span>`;
+      container.appendChild(tab);
+    });
+  }
+
+  // Mostrar categoría seleccionada
+  function showCategory(categoryId) {
+    document.querySelectorAll('#api-sections-container .api-category').forEach(section => {
+      section.style.display = 'none';
+    });
+    
+    const targetSection = byId(categoryId);
+    if (targetSection) {
+      targetSection.style.display = 'block';
+    }
+    
+    document.querySelectorAll('.tab-button').forEach(button => {
+      button.classList.toggle('active', button.dataset.category === categoryId);
+    });
+  }
+
+  // Construir secciones y tarjetas de APIs
+  function buildSectionsAndCards() {
+    const container = byId('api-sections-container');
+    container.innerHTML = '';
+
+    CATEGORIES.forEach((category, index) => {
+      const apisInCategory = APIS.filter(api => api.category === category.id);
+      
+      const section = document.createElement('section');
+      section.className = 'api-category fade-in';
+      section.id = `category-${category.id.replace(/\s/g, '-')}`;
+      
+      section.style.display = index === 0 ? 'block' : 'none';
+      
+      const title = document.createElement('h2');
+      title.innerHTML = `<i class="fa-solid ${getIconForCategory(category.id)}"></i> ${category.name}`;
+      section.appendChild(title);
+      
+      const grid = document.createElement('div');
+      grid.className = 'grid';
+      
+      if (apisInCategory.length > 0) {
+        apisInCategory.forEach(api => {
+          const apiIndex = APIS.indexOf(api);
+          const card = document.createElement('div');
+          card.className = 'card';
+          
+          card.innerHTML = `
+            <h3><i class="${api.icon}"></i> ${api.name}</h3>
+            <div class="endpoint-container row">
+                <div id="ep-${apiIndex}" class="endpoint grow">${api.path}</div>
+                <button class="btn secondary" onclick="copyText('ep-${apiIndex}')" title="Copiar endpoint"><i class="fa-regular fa-copy"></i></button>
+            </div>
+            <div class="row wrap">
+              <div class="grow"><input id="in-${apiIndex}" placeholder="${api.placeholder}" /></div>
+              <button class="btn" onclick="testAPI(${apiIndex})"><i class="fa-solid fa-play"></i> Probar</button>
+            </div>
+            <small>${api.docs}</small>
+            <div id="apiurl-${apiIndex}" class="api-used" style="display:none"></div>
+            <div id="actions-${apiIndex}" class="row wrap"></div>
+            <pre id="json-output-${apiIndex}" class="json">El resultado aparecerá aquí...</pre>
+          `;
+          grid.appendChild(card);
+        });
+      } else {
+        grid.innerHTML = `<p style="color: var(--text-secondary);">Próximamente nuevas APIs en esta categoría...</p>`;
+      }
+      
+      section.appendChild(grid);
+      container.appendChild(section);
+    });
+  }
+
+  // Copiar texto al portapapeles
+  function copyText(id) {
+    const el = byId(id);
+    navigator.clipboard.writeText(el.textContent.trim());
+    const button = el.nextElementSibling;
+    const originalIcon = button.innerHTML;
+    button.innerHTML = '<i class="fa-solid fa-check"></i>';
+    setTimeout(() => { button.innerHTML = originalIcon; }, 1500);
+  }
+
+  // Recopilar enlaces de descarga del resultado
+  function gatherDownloadLinks(obj, apiType) {
+    const urls = [];
+    const add = (u, l) => { if (typeof u === "string" && /^https?:\/\//.test(u)) urls.push({ url: u, label: l }) };
+
+    if (apiType === 'video_download' || apiType === 'audio_download' || apiType === 'image_video_download') {
+      add(obj?.download, 'descargar');
+      add(obj?.video_no_watermark, 'Video (sin marca)');
+      add(obj?.video_watermark, 'Video (con marca)');
+      add(obj?.music, 'Audio');
+      if (Array.isArray(obj?.video)) obj.video.forEach((v, i) => add(v.url, v.quality || `Video ${i + 1}`));
+      if (Array.isArray(obj?.images)) obj.images.forEach((v, i) => add(v.url, v.quality || `Imagen ${i + 1}`));
+    } else if (apiType === 'image_search' && Array.isArray(obj?.results)) {
+        obj.results.slice(0, 3).forEach(r => add(r.image_large || r.image_medium, `Ver Imagen`));
+    }
+    return urls;
+  }
+
+  // Renderizar botones de acción para descargas
+  function renderActions(i, data, apiType) {
+    const box = byId('actions-' + i);
+    box.innerHTML = '';
+    const links = gatherDownloadLinks(data, apiType);
+    if (!links.length) return;
+    
+    links.slice(0, 5).forEach(item => {
+      const a = document.createElement('a');
+      a.className = 'btn secondary';
+      a.href = item.url;
+      a.target = '_blank';
+      a.innerHTML = `<i class="fa-solid fa-download"></i> ${item.label}`;
+      box.appendChild(a);
+    });
+  }
+
+  // Probar API
+  async function testAPI(i) {
+    const base = window.location.origin;
+    const val = byId('in-' + i).value.trim();
+    const jsonOutputEl = byId('json-output-' + i);
+    const api = APIS[i];
+    
+    jsonOutputEl.innerHTML = '';
+    jsonOutputEl.textContent = 'Consultando...';
+    jsonOutputEl.style.color = 'var(--text-secondary)';
+    byId('actions-' + i).innerHTML = '';
+
+    if (!val) {
+      jsonOutputEl.textContent = 'Por favor, ingresa un valor para probar.';
+      jsonOutputEl.style.color = 'var(--err)';
+      return;
+    }
+    
+    try {
+      const fullUrl = base + api.path + encodeURIComponent(val);
+      const apiUrlEl = byId('apiurl-' + i);
+      apiUrlEl.style.display = 'block';
+      apiUrlEl.textContent = fullUrl;
+      
+      const res = await fetch(fullUrl);
+      if (!res.ok) throw new Error(`Error HTTP: ${res.status} ${res.statusText}`);
+
+      const contentType = res.headers.get("content-type");
+      
+      jsonOutputEl.innerHTML = '';
+      jsonOutputEl.style.color = 'var(--text-secondary)';
+
+      if (contentType && contentType.includes("application/json")) {
+        const data = await res.json();
+        jsonOutputEl.textContent = pretty(data);
+        renderActions(i, data, api.type);
+      } 
+      else if (contentType && contentType.startsWith("image/")) {
+        const blob = await res.blob();
+        const imageUrl = URL.createObjectURL(blob);
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        img.alt = "Resultado de la API";
+        jsonOutputEl.appendChild(img);
+      } 
+      else if (contentType && contentType.startsWith("video/")) {
+        const blob = await res.blob();
+        const videoUrl = URL.createObjectURL(blob);
+        const video = document.createElement('video');
+        video.src = videoUrl;
+        video.controls = true;
+        video.autoplay = true;
+        video.muted = true;
+        jsonOutputEl.appendChild(video);
+      } 
+      else if (contentType && contentType.startsWith("audio/")) { 
+        const blob = await res.blob();
+        const audioUrl = URL.createObjectURL(blob);
+        const audio = document.createElement('audio');
+        audio.src = audioUrl;
+        audio.controls = true;
+        audio.autoplay = true;
+        jsonOutputEl.appendChild(audio);
+      }
+      else {
+        const text = await res.text();
+        jsonOutputEl.textContent = text || 'La respuesta no es JSON, imagen, video o audio.';
+        jsonOutputEl.style.color = 'var(--text-secondary)';
+      }
+
+    } catch (e) {
+      jsonOutputEl.textContent = 'Error: ' + e.message;
+      jsonOutputEl.style.color = 'var(--err)';
+    }
+  }
+
+  // Función de búsqueda
+  byId('search-input').addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    const tabsContainer = byId('tabs-container');
+    
+    if (query) {
+      tabsContainer.style.display = 'none';
+      document.querySelectorAll('#api-sections-container .api-category').forEach(s => s.style.display = 'block');
+    } else {
+      tabsContainer.style.display = 'flex';
+      showCategory(`category-${CATEGORIES[0].id.replace(/\s/g, '-')}`);
+    }
+    
+    document.querySelectorAll('.card').forEach(card => {
+      const title = card.querySelector('h3').textContent.toLowerCase();
+      const docs = card.querySelector('small').textContent.toLowerCase();
+      const isVisible = title.includes(query) || docs.includes(query);
+      card.style.display = isVisible ? 'flex' : 'none';
+    });
+    
+    document.querySelectorAll('.api-category').forEach(categorySection => {
+      if (query) {
+        const visibleCards = categorySection.querySelectorAll('.card[style*="display: flex"]');
+        categorySection.querySelector('h2').style.display = visibleCards.length > 0 ? 'block' : 'none';
+      } else {
+        categorySection.querySelector('h2').style.display = 'block';
+      }
+    });
+  });
+
+  // Inicialización
+  (function() {
+    byId('year').textContent = new Date().getFullYear();
+    buildTabs();
+    buildSectionsAndCards();
+    
+    // Efecto de aparición para elementos
+    const fadeElements = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    fadeElements.forEach(element => {
+      element.style.opacity = 0;
+      element.style.transform = 'translateY(20px)';
+      element.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+      observer.observe(element);
+    });
+    
+    // Efecto de partículas para el fondo
+    createParticles();
+  })();
+
+  // Crear partículas animadas
+  function createParticles() {
+    const particlesContainer = document.createElement('div');
+    particlesContainer.style.position = 'fixed';
+    particlesContainer.style.top = '0';
+    particlesContainer.style.left = '0';
+    particlesContainer.style.width = '100%';
+    particlesContainer.style.height = '100%';
+    particlesContainer.style.pointerEvents = 'none';
+    particlesContainer.style.zIndex = '-1';
+    document.body.appendChild(particlesContainer);
+    
+    for (let i = 0; i < 30; i++) {
+      const particle = document.createElement('div');
+      particle.style.position = 'absolute';
+      particle.style.width = Math.random() * 5 + 2 + 'px';
+      particle.style.height = particle.style.width;
+      particle.style.background = 'rgba(77, 171, 247, 0.2)';
+      particle.style.borderRadius = '50%';
+      particle.style.top = Math.random() * 100 + 'vh';
+      particle.style.left = Math.random() * 100 + 'vw';
+      
+      particlesContainer.appendChild(particle);
+      
+      animateParticle(particle);
+    }
+  }
+  
+  function animateParticle(particle) {
+    let x = parseFloat(particle.style.left);
+    let y = parseFloat(particle.style.top);
+    let xSpeed = (Math.random() - 0.5) * 0.3;
+    let ySpeed = (Math.random() - 0.5) * 0.3;
+    
+    function move() {
+      x += xSpeed;
+      y += ySpeed;
+      
+      if (x < 0 || x > 100) xSpeed *= -1;
+      if (y < 0 || y > 100) ySpeed *= -1;
+      
+      particle.style.left = x + 'vw';
+      particle.style.top = y + 'vh';
+      
+      requestAnimationFrame(move);
+    }
+    
+    move();
+  }
+</script>
+</body>
+</html>
