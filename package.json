@@ -4,7 +4,7 @@
   "description": "API para obtener enlaces de descarga de YouTube, Instagram y Facebook con metadatos.",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "author": "Dioneibi",
   "license": "ISC",
